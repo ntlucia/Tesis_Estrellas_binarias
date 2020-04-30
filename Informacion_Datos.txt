@@ -1,0 +1,1 @@
+Los datos que se usan para analizar son pesados y si son requeridos para volver a usar es necesario requerir permisos de la Universidad de Guanajuato y Universidad Hamburgo

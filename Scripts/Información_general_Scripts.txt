@@ -1,0 +1,4 @@
+readData_v2 = Archivo que lee los datos .FIT
+con_to_iSpec_v2 = Convertir datos.FIT a datos.csv
+con_to_ascii_v2 = Convertir datos.FIT a nomeclatura ascii
+iSpec = Para instalar se sugiere se seguir el manual https://www.blancocuaresma.com/s/iSpec/manual/installation
