@@ -2,7 +2,6 @@
 Desarrollo del trabajo de grado en pregrado Física UIS enfocado al análisis espectroscópico de un sistema de estrellas binarias eclipsantes.
 
 En este repositorio se encontrará:
--Propuesta
--Presentación de la propuesta
--Desarrollo de la propuesta
--Códigos que permiten cumplir objetivos del proyecto
+-Información referente a los datos que se usaron en el proyecto
+-Códigos y scripts que permiten cumplir objetivos del proyecto
+-Diapositivas de los avances del proyecto presentadas en el grupo
