@@ -1,0 +1,31 @@
+JD: La fecha juliana [1] de la observación
+Magnitude: La estimación de magnitud de la observación. Un signo < significa que fue una observación nula "más débil que" la magnitud dada.
+Uncertainty: incertidumbre (error) de la observación presentada por el observador
+HQuncertainty: Incertidumbre (error) de la observación calculada por la sede de AAVSO
+Band: Bandpass de la observación. Los filtros permitidos se enumeran aquí [2].
+Observer Code: esta es una identificación única asignada a cada observador.
+Comment Code: códigos de comentario enviados por el observador. Una lista de códigos está aquí [3] .
+Comp Star 1: La (s) estrella (s) de comparación utilizada para hacer la estimación visual. Si es fotométrico, esta es la identificación de estrella de comparación (C).
+Comp Star 2: La (s) estrella (s) de comparación utilizada para hacer la estimación visual. Si es fotométrico, esta es la identificación de la estrella de verificación (K).
+Charts: los gráficos utilizados para encontrar el campo y ubicar las estrellas de comparación y sus valores. A partir de julio de 2008, se emitieron nuevos gráficos con un formato de ID de gráfico de XXXXY donde XXXX es un número e Y puede ser cualquier combinación de letras. Puede visitar nuestro Plotter de estrellas variable [4] y escribir esa ID de gráfico para ver el gráfico exacto que utilizó el observador para hacer esa observación. Para las ID de gráficos que no están en ese formato, comuníquese con AAVSO HQ y podemos enviarle por correo electrónico una copia del gráfico utilizado en la observación.
+Comments: comentarios sobre la observación, generalmente del observador
+Transform: si se aplicaron coeficientes de transformación a la observación, entonces será "Sí".
+Airmass: la masa de aire de la observación.
+Validation Flag:  Este indicador describe el nivel de validación [5] de la observación.
+V significa que la observación ha pasado nuestras pruebas de validación.
+T significa que durante la fase de validación se marcó como discrepante y debe usarse con extrema precaución.
+Z significa que solo se sometió a una validación previa, lo que significa que se verificó solo para errores tipográficos y errores de entrada de datos.
+U significa que no ha sido validado en absoluto y debe usarse con precaución.
+Cmag: magnitud suministrada de la estrella de comparación
+Kmag: magnitud medida de la estrella de verificación
+HJD:  Fecha juliana heliocéntrica
+Star Name: nombre de la estrella
+Affiliation: Organización afiliada al observador que tomó estos datos. Consulte este enlace [6] para obtener una lista de los códigos de afiliación y sus organizaciones correspondientes.
+Magnitude Type: este campo describe el tipo de magnitud utilizada en la observación:
+STD - magnitud estándar.
+DIFF - magnitud diferencial. El valor de Comp Star 1 es necesario para calcular la magnitud estándar.
+PASO - magnitud de paso no reducida. Estas magnitudes se dan como 0.0 y la secuencia de pasos se puede encontrar en el campo Código de comentario.
+Group: Denota qué grupo de filtros se usaron para esta observación.
+ADS Reference: el identificador del artículo en formato CDS / ADS Código bibliográfico [7]
+Digitizer: El código del digitalizador para el individuo que digitalizó y envió los datos (idéntico al código de observador del individuo si ya es un observador AAVSO).
+Credit: Organización [8] que se acreditará por la observación.
