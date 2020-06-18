@@ -1,0 +1,7 @@
+readData_v2 = Archivo que lee los datos .FIT
+con_to_iSpec_v2 = Convertir datos.FIT a datos.csv
+con_to_ascii_v2 = Convertir datos.FIT a nomeclatura ascii
+iSpec = Para instalar se sugiere se seguir el manual https://www.blancocuaresma.com/s/iSpec/manual/installation
+DataRedu = Integra readData y los scripts de convertir para hacerlos inmediatamente por carpetas, teniendo en cuenta que la carpera debe llevar el nombre genérico de los archivos dentro de ella
+HIEW = Calculo del ancho equivalente de una línea de emisión en C++
+FWHM = Calculo del ancho equivalente en Python
