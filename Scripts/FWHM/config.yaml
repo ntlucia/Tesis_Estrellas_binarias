@@ -1,0 +1,12 @@
+Calcio:
+    LMIN : 3931.66
+    LMAX : 3935.66
+    LLIN : 3933.66
+    RANG : 0.2
+    NSPL : 40
+Hidrogeno:
+    LMIN : 3052.66
+    LMAX : 3935.66
+    LLIN : 3933.66
+    RANG : 0.2
+    NSPL : 200
