@@ -55,7 +55,7 @@ def fit_continuum(grouped_data, L_min, L_max):
     fit =  pd.DataFrame({'L': xs, 'I': cs(xs)})
     return fit
 
-def parameters_double(fit, LMIN, LMAX, LLIN, RANG):
+def parameters_double(New_Data, fit, LMIN, LMAX, LLIN, RANG):
 #Creo dos dataFrame desde el mínimo K3 hacía la izquiera y la derecha, teniendo en cuenta un rango de ese mínimo
     b = fit[     (fit['L'] >= LMIN) & (fit['L'] <= (LLIN - RANG))  ]
     r = fit[     (fit['L'] >= (LLIN + RANG)) & (fit['L'] <= LMAX)  ]
@@ -82,22 +82,48 @@ def parameters_double(fit, LMIN, LMAX, LLIN, RANG):
     Irm_ajus = nsmallest(1, peak2['I'],  key = lambda x: abs(x - Irm_teo))[0]
     R_m = peak2[peak2['I'] == Irm_ajus]
 
-    plt.figure(figsize = [8,6])
-    plt.plot(fit['L'],fit['I'],marker='', ls='-')
-    plt.scatter(k1b['L'], k1b['I'], color = 'blue')
-    plt.scatter(k1r['L'], k1r['I'], color = 'r')
-    plt.scatter(k2b['L'], k2b['I'], color = 'blue')
-    plt.scatter(k2r['L'], k2r['I'], color = 'r')
-    plt.scatter(B_m['L'], B_m['I'], color = 'green')
-    plt.scatter(R_m['L'], R_m['I'], color = 'green')
-    plt.grid()
-    plt.ylabel("Flujo",fontsize=18)
-    plt.xlabel("$\lambda [A]$",fontsize=18)
-    plt.show()
-    return ""
+
+
+    #Calculo de la incertidumbre de lambda para el punto medio
+
+    valor_medioB = New_Data[New_Data['L'] == nsmallest(1, New_Data['L'],  key = lambda x: abs(x - float(B_m['L'])))[0]]
+    indb = valor_medioB.index[0]
+
+    if float(valor_medioB['L']) < float(B_m['L']):
+        Lmbinf = valor_medioB
+        Lmbsup = pd.DataFrame( [[New_Data['L'][indb+1], New_Data['I'][indb+1]]], columns = ('L','I'))
+    else:
+        Lmbsup = valor_medioB
+        Lmbinf = pd.DataFrame( [[New_Data['L'][indb-1], New_Data['I'][indb-1]]], columns = ('L','I') )
+
+    valor_medioR = New_Data[New_Data['L'] == nsmallest(1, New_Data['L'],  key = lambda x: abs(x - float(R_m['L'])))[0]]
+    indr = valor_medioR.index[0]
+
+    if float(valor_medioR['L']) < float(R_m['L']):
+        Lmrinf = valor_medioR
+        Lmrsup = pd.DataFrame( [[New_Data['L'][indr+1], New_Data['I'][indr+1]]], columns = ('L','I') )
+    else:
+        Lmrsup = valor_medioR
+        Lmrinf = pd.DataFrame( [[New_Data['L'][indr-1], New_Data['I'][indr-1]]], columns = ('L','I') )
+
+    #Calculo de W_0
+    W_0 = float(R_m['L']) -float(B_m['L'])
+    deltabm = ( float(Lmbsup['L']) - float(B_m['L']) + float(B_m['L']) - float(Lmbinf['L']))/2
+    deltarm = ( float(Lmrsup['L']) - float(R_m['L']) + float(R_m['L']) - float(Lmrinf['L']))/2
+    deltaW = np.sqrt(deltabm**2 + deltarm**2)
+
+    return [W_0, deltaW]
 
 def Analysis(Analysis_Types):    
-    for Data_route in ["zetaAur-eclipse_B_2019_11_15_23_52_17.dat"]:
+    WE = pd.DataFrame(columns=("W_0","deltaW"))
+    Direction_base = Spectra()
+    with open(Direction_base + "archives.txt",mode='r') as f:
+        Records =  f.readlines()
+    for i in range(len(Records)):
+        Records[i] = Direction_base + Records[i][:-1]
+        
+    for Data_route in Records:
+        print("Processing {}".format(Data_route))
         [New_Data,L_min, L_max] = Cut_Data(  config()[Analysis_Types]  ,  Read_Data(Data_route)  )
 
         grouped_data = Points_continuum(New_Data['L'],
@@ -106,11 +132,19 @@ def Analysis(Analysis_Types):
                                         L_max,
                                         step_continuum(L_min,L_max,config()[Analysis_Types]['NSPL']) )
         fit = fit_continuum(grouped_data, L_min, L_max)
-        parameters = parameters_double( fit, 
-                                        config()[Analysis_Types]['LMIN'], 
-                                        config()[Analysis_Types]['LMAX'],
-                                        config()[Analysis_Types]['LLIN'],
-                                        config()[Analysis_Types]['RANG'] )
+
+        try:
+            parameters = parameters_double( New_Data,
+                                            fit, 
+                                            config()[Analysis_Types]['LMIN'], 
+                                            config()[Analysis_Types]['LMAX'],
+                                            config()[Analysis_Types]['LLIN'],
+                                            config()[Analysis_Types]['RANG'] )
+            WE.loc[ len(WE["W_0"]) ] =  parameters
+        except IndexError:
+            print("Index Error")
+
+    WE.to_csv('Equivalent_Width.csv', index = False, header=True)
 
 def Weight_equivalent(parameter_list):
     pass
