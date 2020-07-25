@@ -1,0 +1,241 @@
+Oxigeno_y:
+    LMIN : 8985.65
+    LMAX : 8989.65
+    LLIN : 8987.65
+    RANG : 0.2
+    NSPL : 40
+
+Oxigeno_y:
+    LMIN : 8224.96
+    LMAX : 8228.96
+    LLIN : 8226.96
+    RANG : 0.2
+    NSPL : 40
+
+Oxigeno_A:
+    LMIN : 7591.70
+    LMAX : 7595.70
+    LLIN : 7593.70
+    RANG : 0.2
+    NSPL : 40
+
+Oxigeno_B:
+    LMIN : 6867.19
+    LMAX : 6869.19
+    LLIN : 6867.19
+    RANG : 0.2
+    NSPL : 40
+
+Halpha_C:
+    LMIN : 6560.81
+    LMAX : 6564.81
+    LLIN : 6562.81
+    RANG : 0.2
+    NSPL : 40
+
+Oxigeno_a:
+    LMIN : 6274.61
+    LMAX : 6278.61
+    LLIN : 6276.61
+    RANG : 0.2
+    NSPL : 40
+
+Sodio_D1:
+    LMIN : 5893.92
+    LMAX : 5897.92
+    LLIN : 5895.92
+    RANG : 0.2
+    NSPL : 40
+
+Sodio_D2:
+    LMIN : 5887.95
+    LMAX : 5891.95
+    LLIN : 5889.95
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_D3:
+    LMIN : 5873.65
+    LMAX : 5877.65
+    LLIN : 5875.65
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_E2:
+    LMIN : 5268.39
+    LMAX : 5272.39
+    LLIN : 5270.39
+    RANG : 0.2
+    NSPL : 40
+
+Magnesio_b1:
+    LMIN : 5181.62
+    LMAX : 5185.62
+    LLIN : 5183.62
+    RANG : 0.2
+    NSPL : 40
+
+Magnesio_b2:
+    LMIN : 5270.70
+    LMAX : 5274.70
+    LLIN : 5172.70
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_b3:
+    LMIN : 5166.91
+    LMAX : 5170.91
+    LLIN : 5168.91
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_b4:
+    LMIN : 5165.51
+    LMAX : 5169.51
+    LLIN : 5167.51
+    RANG : 0.2
+    NSPL : 40
+
+Magnesio_b4:
+    LMIN : 5165.33
+    LMAX : 5169.33
+    LLIN : 5167.33
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_c:
+    LMIN : 4955.61
+    LMAX : 4959.61
+    LLIN : 4957.61
+    RANG : 0.2
+    NSPL : 40
+
+Hbeta_F:
+    LMIN : 4859.34
+    LMAX : 4863.34
+    LLIN : 4861.34
+    RANG : 0.2
+    NSPL : 40
+
+Hbeta_F:
+    LMIN : 4859.34
+    LMAX : 4863.34
+    LLIN : 4861.34
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_d:
+    LMIN : 4666.14
+    LMAX : 4670.14
+    LLIN : 4668.14
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_e:
+    LMIN : 4381.55
+    LMAX : 4385.55
+    LLIN : 4383.55
+    RANG : 0.2
+    NSPL : 40
+
+Hgamma_f:
+    LMIN : 4338.47
+    LMAX : 4342.47
+    LLIN : 4340.47
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_G:
+    LMIN : 4305.90
+    LMAX : 4309.90
+    LLIN : 4307.90
+    RANG : 0.2
+    NSPL : 40
+
+Calcio_G:
+    LMIN : 4305.74
+    LMAX : 4309.74
+    LLIN : 4307.74
+    RANG : 0.2
+    NSPL : 40
+
+Hdelta_h:
+    LMIN : 4099.75
+    LMAX : 4103.75
+    LLIN : 4101.75
+    RANG : 0.2
+    NSPL : 40
+
+Hepsilon:
+    LMIN : 3068.07
+    LMAX : 3972.07
+    LLIN : 3970.07
+    RANG : 0.2
+    NSPL : 40
+
+Calcio_H:
+    LMIN : 3966.47
+    LMAX : 3970.47
+    LLIN : 3968.47
+    RANG : 0.2
+    NSPL : 40
+
+Calcio_K:
+    LMIN : 3931.66
+    LMAX : 3935.66
+    LLIN : 3933.66
+    RANG : 0.2
+    NSPL : 40
+
+Hzeta:
+    LMIN : 3887.00
+    LMAX : 3891.00
+    LLIN : 3889.00
+    RANG : 0.2
+    NSPL : 40
+
+Hzeta:
+    LMIN : 3833.00
+    LMAX : 3837.00
+    LLIN : 3835.00
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_L:
+    LMIN : 3818.44
+    LMAX : 3822.44
+    LLIN : 3820.44
+    RANG : 0.2
+    NSPL : 40
+
+
+Hierro_N:
+    LMIN : 3579.21
+    LMAX : 3583.21
+    LLIN : 3581.21
+    RANG : 0.2
+    NSPL : 40
+    
+Titanio_P:
+    LMIN : 3359.12
+    LMAX : 3363.12
+    LLIN : 3361.12
+    RANG : 0.2
+    NSPL : 40
+
+Hierro_T:
+    LMIN : 3019.08
+    LMAX : 3023.08
+    LLIN : 3021.08
+    RANG : 0.2
+    NSPL : 40   
+
+Niquel_t:
+    LMIN : 2992.44
+    LMAX : 2996.44
+    LLIN : 2994.44
+    RANG : 0.2
+    NSPL : 40   
+
+
+
