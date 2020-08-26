@@ -1,28 +1,44 @@
 # Tesis_Estrellas_binarias
-Desarrollo del trabajo de grado en pregrado Física UIS enfocado al análisis espectroscópico de un sistema de estrellas binarias eclipsantes.
+Proyecto de tesis de pregrado Física UIS acerca del análisis espectroscópico de la cromósfera de la estrella gigante que hace parte del sistema binario eclipsante, Zeta aurigae, durante el eclipse ocurrido en otoño del año 2019.
 
-En este repositorio se encontrará:
+## Participantes:
 
--Avances mostrados en las reuniones quincenales presentadas al grupo de investigación Halley UIS
+  * Natalia Lucía Oliveros Gómez (onatalialucia@gmail.com)
+  * Klaus-Peter Schröder (astrokp85@gmail.com)
+  * Faiber Danilo Rosas Portilla (frosas.portilla@gmail.com)
+  * Luis A. Nuñez (lnunez@uis.edu.co)  
 
--Información referente a los datos que se usaron en el proyecto:
+## Contenido del repositorio:
 
-    - Los datos de espectroscopia no están disponibles en este repositorio debido al gran tamaño de los mismos, de ser requeridos para hacer pruebas, me pueden comunicar al correo: onatalialucia@gmail.com
-    
-    - Los datos de fotometría si están disponibles y tienen su respectiva información en la carpeta DATA
-    
--Lecturas necesarias y más importantes para tener en cuenta para llevar a cabo el proyecto
+* /Avances/: mostrados en las reuniones quincenales presentadas al grupo de investigación Halley UIS
 
--Códigos y scripts que permiten cumplir objetivos del proyecto
+* /Data/: Información referente a los datos que se usaron en el proyecto:
 
-    - DataRedu: Permite pasar carpetas de archivos .fit a .dat y puede hacer algunos ajustes de normalización (Faiber Rosas)
+    - /Espectroscopia/ : Los datos de espectroscopia no están disponibles en este repositorio debido al gran tamaño de los mismos, de ser requeridos para hacer pruebas, me pueden comunicar al correo: onatalialucia@gmail.com
     
-    - HIEW: Código en C++ que calcula el ancho a media altura para líneas de emisión de espectros estelares (Faiber Rosas)
+    - /Fotometria/ Los datos de fotometría si están disponibles y tienen su respectiva información en la carpeta DATA
     
-    - ReadData: Lee archivos .fit y pueden ser convertidos a .dat o lenguaje asccii (Universidad de Hamburgo)
+* /Lecturas/: Lecturas necesarias y más importantes para tener en cuenta para llevar a cabo el proyecto
+
+* /Scripts/: Códigos y scripts que permiten cumplir objetivos del proyecto
+
+    - /DataRedu/: Permite pasar carpetas de archivos .fit a .dat y puede hacer algunos ajustes de normalización (Faiber Rosas)
     
-    - Width: Código en python para calcular ancho a media altura y ancho equivalente de líneas especificas que se pidan (N Lucía Oliveros)
+    - /HIEW/: Código en C++ que calcula el ancho a media altura para líneas de emisión de espectros estelares (Faiber Rosas)
     
-    - Growth_curve: Código en python para obtener anchos equivalentes y valores log(gf) de un elemento específico y generar curvas de crecimiento (N Lucía Oliveros)
+    - /ReadData/: Lee archivos .fit y pueden ser convertidos a .dat o lenguaje asccii (Universidad de Hamburgo)
     
-TODOS LOS AVANCES TAMBIÉN ESTÁN REGISTRADOS EN EL EL PROYECTO: https://github.com/users/ntlucia/projects/1
+    - /Width/: Código en python para calcular ancho a media altura y ancho equivalente de líneas especificas que se pidan (N Lucía Oliveros)
+    
+    - /Growth_curve/: Código en python para obtener anchos equivalentes y valores log(gf) de un elemento específico y generar curvas de crecimiento (N Lucía Oliveros)
+    
+ ## Gestión del proyecto:  
+
+Para monitorear y gestionar el flujo de trabajo favor referirse al *project board*
+del proyecto [link](https://github.com/users/ntlucia/projects/1).
+
+## Repositorios asociados:
+
+  * [Propuesta](https://github.com/ntlucia/Propuesta_NLOliverosG)
+  * [Libro tesis](https://github.com/ntlucia/Libro_tesis_Estrellas_Binarias)
+
