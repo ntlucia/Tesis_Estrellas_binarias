@@ -16,7 +16,7 @@ Proyecto de tesis de pregrado Física UIS acerca del análisis espectroscópico 
 
     - /Espectroscopia/ : Los datos de espectroscopia no están disponibles en este repositorio debido al gran tamaño de los mismos, de ser requeridos para hacer pruebas, me pueden comunicar al correo: onatalialucia@gmail.com
     
-    - /Fotometria/ Los datos de fotometría si están disponibles y tienen su respectiva información en la carpeta DATA
+    - /Fotometria/: Los datos de fotometría si están disponibles y tienen su respectiva información en la carpeta DATA
     
 * /Lecturas/: Lecturas necesarias y más importantes para tener en cuenta para llevar a cabo el proyecto
 
@@ -35,7 +35,7 @@ Proyecto de tesis de pregrado Física UIS acerca del análisis espectroscópico 
  ## Gestión del proyecto:  
 
 Para monitorear y gestionar el flujo de trabajo favor referirse al *project board*
-del proyecto [link](https://github.com/users/ntlucia/projects/1).
+[*project board*](https://github.com/users/ntlucia/projects/1) del proyecto.
 
 ## Repositorios asociados:
 
