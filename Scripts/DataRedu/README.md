@@ -12,7 +12,11 @@ Con la versión modificada de con_to_ascii.py, todos los .fits del directorio se
 de izquierda a derecha: Wavelength (nm), Flux (erg/cm^2/s) y Flux Error (erg/cm^2/s)
 
 **DataRedu** puede convertir recursivamente archivos .fit a .dat; esto es, todos los archivos de una carpeta o 
-de carpetas separadas (cada carpeta con el nombre de la estrella). 
+de carpetas separadas (cada carpeta con el nombre de la estrella).
+
+#### Vemos que tenemos dos carpetas, una de ellas aplica la normalización que viene directa de la universidad de 
+Hamburgo sobre todos los datos del tigre, pero es posible no usar esta normalización y hacerla con el código de iSPar
+que está en la otra carpeta.
 
 ## Requisitos
 
