@@ -47,12 +47,10 @@ def elements_analyze(lines_s, Atomic_lines, element):
     
     
     #Used just workin data range
-    atomic_data_element = val[(val['wave_A'] >= 3760) & (val['wave_A'] <= 4420)]
+    atomic_data_element = val[(val['wave_A'] >= 376) & (val['wave_A'] <= 460)]
     atomic_data_element.index = list(range(len(atomic_data_element)))
 
     #Working in nm
-    atomic_data_element['wave_A'] = atomic_data_element['wave_A']/10
-    print(data_element)
     return [data_element, atomic_data_element]
 
 def list_loggf(element, data_element, atomic_data_element,spectrum, theoric_abs_lines):
@@ -62,11 +60,10 @@ def list_loggf(element, data_element, atomic_data_element,spectrum, theoric_abs_
     new_listgf = []
     loggf = []
     for i in range(len(element_['waveobs'])):
-        #x = abs(nsmallest(1,atomic_data_element['wave_A'], key = lambda x: abs(x-element_['waveobs'][i]))[0] - element_['waveobs'][i])
-        if x < 0.05:
+        x = abs(nsmallest(1,atomic_data_element['wave_A'], key = lambda x: abs(x-element_['waveobs'][i]))[0] - element_['waveobs'][i])
+        if x < 0.1:
             new_listgf.append(nsmallest(1,atomic_data_element['wave_A'], key = lambda x: abs(x-element_['waveobs'][i]))[0])
             loggf.append(atomic_data_element[atomic_data_element["wave_A"] == new_listgf[i]]["loggf"].tolist()[0])
-    print(new_listgf)
     Ti2_gf = pd.DataFrame(columns = ['waveobs','element', 'flux', 'loggf', 'wave_base', 'wave_top', 'error_f'])
     Ti2_gf['waveobs'] = data_element['waveobs']
     Ti2_gf['element'] = data_element['element']
@@ -143,13 +140,14 @@ def Equivalent_width(fit, spectrum, mean, base, top):
 
 def Equivalent_width_comp(spectrum, base,top):
     equivalent_widths = []
-    for i in range(len(base)-1):
+    for i in range(len(base)):
         step = step_continuum( base[i] ,top[i],20)
         grouped_data = Points_continuum(spectrum["waveobs"], spectrum["flux"], base[i], top[i], step)
         fit= fit_continuum(grouped_data, base[i], top[i])
         mean = pseudocontinuou(spectrum,base[i], top[i])
         equivalent_width = Equivalent_width(fit, spectrum, mean, base[i], top[i])
         equivalent_widths.append(equivalent_width)
+    print(len(equivalent_widths))
     return equivalent_widths
 
 
@@ -172,6 +170,7 @@ def growth_curve(n_CROMOSP_LINES, n_ATOMIC_LINES, n_SPECTRUM, n_THEORIC_CROMOSP_
     spectrum =  pd.read_csv(n_SPECTRUM, delimiter = '\t', header = 0)
     lines = pd.read_csv(n_CROMOSP_LINES, delimiter = ',', header = 0)
     Atomic_lines = pd.read_csv(n_ATOMIC_LINES, delimiter = '\t', usecols = ['element', 'wave_A','loggf'], header = 0, low_memory=False, keep_default_na= False)
+    Atomic_lines['wave_A'] = Atomic_lines['wave_A']/10
     lines_ = pd.read_excel("lines.xlsx",sheet_name="cromospheric_lines", columns = ['waveobs', 'element','wave_base', 'wave_top'] )
     lines_['waveobs'] = lines_['waveobs']/10
     lines_['wave_base'] = lines_['wave_base']/10
@@ -179,13 +178,10 @@ def growth_curve(n_CROMOSP_LINES, n_ATOMIC_LINES, n_SPECTRUM, n_THEORIC_CROMOSP_
 
 
     [data_element,atomic_data_element] = elements_analyze(lines, Atomic_lines, element)
-    _data_lines = list_loggf(element, data_element, atomic_data_element, spectrum, lines_)
+    _data_lines = list_loggf(element, data_element, atomic_data_element,spectrum, lines_)
     
 
-    equivalent_widths = Equivalent_width_comp(spectrum, lines['wave_base'], lines['wave_top'])
-    print(len(equivalent_widths))
-    print(len(_data_lines))
-
+    equivalent_widths = Equivalent_width_comp(spectrum, _data_lines['wave_base'], _data_lines['wave_top'])
     data_lines = data_growth_curve(_data_lines, equivalent_widths)
     data_lines.to_csv("{}_growth_curve.csv".format(element), index = False, header=True)
 
