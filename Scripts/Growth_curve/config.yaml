@@ -1,3 +1,4 @@
-CROMOSP_LINES : "lines.xlsx"
+CROMOSP_LINES : "absortionlines.csv"
 ATOMIC_LINES  : "atomic_lines.tsv"
 SPECTRUM      : "Subtracted_spectrum_F1-9.txt"
+THEORIC_CROMOSP_LINES : "lines.xlsx"
