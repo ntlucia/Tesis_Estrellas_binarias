@@ -1,4 +1,4 @@
 CROMOSP_LINES : "absortionlines.csv"
 ATOMIC_LINES  : "atomic_lines.tsv"
-SPECTRUM      : "Subtracted_spectrum_F1-9.txt"
+SPECTRUM      : "N_zetaAur-eclipse_B_2019_11_19_02_52_08_velrad.dat"
 THEORIC_CROMOSP_LINES : "lines.xlsx" 

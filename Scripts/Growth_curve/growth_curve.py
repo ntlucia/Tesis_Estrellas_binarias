@@ -7,9 +7,9 @@
 #//        Created:  25/07/2020                                                                   //
 #//       Compiler:  Python                                                                       //
 #//                                                                                               //
-#//         Author:  Natalia Lucía Oliveros Gómez                                                 //
+#//         Author:  Natalia Lucia Oliveros Gomez                                                 //
 #//          Email:  onatalialucia@gmail.com                                                      //
-#//        Company:  Grupo Halley UIS - Grupo Física Estelar U. Gto                               //
+#//        Company:  Grupo Halley UIS - Grupo Fisica Estelar U. Gto                               //
 #//                                                                                               //
 #// ============================================================================================= //
 #
@@ -183,7 +183,7 @@ def growth_curve(n_CROMOSP_LINES, n_ATOMIC_LINES, n_SPECTRUM, n_THEORIC_CROMOSP_
 
     equivalent_widths = Equivalent_width_comp(spectrum, _data_lines['wave_base'], _data_lines['wave_top'])
     data_lines = data_growth_curve(_data_lines, equivalent_widths)
-    data_lines.to_csv("{}_growth_curve.csv".format(element), index = False, header=True)
+    data_lines.to_csv("{}_growth_curve.dat".format(element), sep = '\t', index = False, header=True)
 
 
 if __name__ == '__main__':
