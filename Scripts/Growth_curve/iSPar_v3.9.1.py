@@ -866,6 +866,9 @@ def fit_lines_determine_ew_and_crossmatch_with_atomic_data(telluric_linelist, mo
     logging.info("Fitting lines...")
     
     chromosphere_lines = ispec.read_line_regions(ispec_dir + "/input/regions/chromosphere_line_regions.txt")
+    chromosphere_lines['wave_peak'] = chromosphere_lines['wave_peak']/10
+    chromosphere_lines['wave_base'] = chromosphere_lines['wave_base']/10
+    chromosphere_lines['wave_top']  = chromosphere_lines['wave_peak']/10
     chromosphere_lines = ispec.adjust_linemasks(c_star_spectrum, chromosphere_lines, max_margin=0.05, check_derivatives=True)
     
     chromosphere_line_regions = ispec.fit_lines(chromosphere_lines, c_star_spectrum, c_star_continuum_model, \
