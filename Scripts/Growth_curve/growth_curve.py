@@ -39,7 +39,7 @@ import argparse  #Para crear argumentos en el ejutable
 #---------- FOUND LOGGF AND ADD TO LIST ----------#
 
 def elements_analyze(lines_s, Atomic_lines, element):
-    data_element = lines_s[lines_s['element'] == element]
+    data_element = lines_s[lines_s['note'] == element]
     data_element.index = list(range(len(data_element)))
 
     #Separate VALD lines by elements for decrease the amount of data
@@ -49,31 +49,28 @@ def elements_analyze(lines_s, Atomic_lines, element):
     #Used just workin data range
     atomic_data_element = val[(val['wave_A'] >= 376) & (val['wave_A'] <= 463)]
     atomic_data_element.index = list(range(len(atomic_data_element)))
-
     #Working in nm
     return [data_element, atomic_data_element]
 
 def list_loggf(element, data_element, atomic_data_element,spectrum, theoric_abs_lines):
-    element_ = theoric_abs_lines[theoric_abs_lines['element']== element]
+    element_ = theoric_abs_lines[theoric_abs_lines['note']== element]
     element_.index = list(range(len(element_)))
-
     new_listgf = []
     loggf = []
-    for i in range(len(element_['waveobs'])):
-        x = abs(nsmallest(1,atomic_data_element['wave_A'], key = lambda x: abs(x-element_['waveobs'][i]))[0] - element_['waveobs'][i])
+    for i in range(len(element_['wave_peak'])):
+        x = abs(nsmallest(1,atomic_data_element['wave_A'], key = lambda x: abs(x-element_['wave_peak'][i]))[0] - element_['wave_peak'][i])
         if x < 0.2:
-            new_listgf.append(nsmallest(1,atomic_data_element['wave_A'], key = lambda x: abs(x-element_['waveobs'][i]))[0])
+            new_listgf.append(nsmallest(1,atomic_data_element['wave_A'], key = lambda x: abs(x-element_['wave_peak'][i]))[0])
             loggf.append(atomic_data_element[atomic_data_element["wave_A"] == new_listgf[i]]["loggf"].tolist()[0])
-    Ti2_gf = pd.DataFrame(columns = ['waveobs','element', 'flux', 'loggf', 'wave_base', 'wave_top', 'error_f'])
-    Ti2_gf['waveobs'] = element_['waveobs']
-    Ti2_gf['element'] = data_element['element']
-    Ti2_gf['flux'] = data_element['flux']
-    Ti2_gf['loggf'] = loggf
+    Ti2_gf = pd.DataFrame(columns = ['wave_peak', 'wave_base', 'wave_top',  'loggf', 'note', 'flux', 'error_f'])
+    Ti2_gf['wave_peak'] = element_['wave_peak']
     Ti2_gf['wave_base'] = data_element['wave_base']
     Ti2_gf['wave_top'] = data_element['wave_top']
+    Ti2_gf['loggf'] = loggf
+    Ti2_gf['element'] = data_element['note']
+    Ti2_gf['flux'] = data_element['flux']
     Ti2_gf['error_f'] = spectrum['err']
     return Ti2_gf
-
 
 #---------- CALCULATE EQUIVALENT WIDTH AND ADD TO LIST ----------#
 
@@ -124,14 +121,14 @@ def pseudocontinuou(Spectrum,LMIN, LMAX):
     return mean
 
 #Calculate equivalent width
-def Equivalent_width(spectrum, peak, mean, base, top):
+def Equivalent_width(spectrum, peak, mean, base, top,i):
     Area_rec = mean*(top - base)
     #Area_rec = mean*( fit['L'][top] - fit['L'][base])
 
     b = spectrum['waveobs']>base
     a = spectrum['waveobs']<top
     c = a&b
-
+    #print("Len Data = {}, {}, {}".format(i, base, top, len(spectrum["waveobs"][c])))
     Area_fit = integrate.simps(spectrum['flux'][c],spectrum["waveobs"][c])
     #Area_fit = integrate.simps(fit['I'], fit['L'])
     Area_real = Area_rec - Area_fit
@@ -147,22 +144,27 @@ def Equivalent_width_comp(spectrum,_data_lines, base,top):
         #grouped_data = Points_continuum(spectrum["waveobs"], spectrum["flux"], base[i], top[i], step)
         #fit= fit_continuum(grouped_data, base[i], top[i])
         mean = pseudocontinuou(spectrum,base[i], top[i])
-        EW,EWR = Equivalent_width(spectrum, _data_lines[i] ,mean, base[i], top[i])
-        equivalent_widths.append(EW)
-        equivalent_widths_r.append(EWR)
+        try:
+            EW,EWR = Equivalent_width(spectrum, _data_lines[i] ,mean, base[i], top[i],i)
+            equivalent_widths.append(EW)
+            equivalent_widths_r.append(EWR)
+        except IndexError:
+            print("IndexError, i={}".format(i))
+
+        
     return [equivalent_widths,equivalent_widths_r]
 
 
 def data_growth_curve(_data_lines, equivalent_widths,equivalent_widths_r ):
-    element_growth_c = pd.DataFrame(columns = ['waveobs','element', 'flux', 'loggf', 'EW', 'EWR','wave_base', 'wave_top', 'error_f'])
-    element_growth_c['waveobs'] = _data_lines['waveobs']
-    element_growth_c['element'] = _data_lines['element']
+    element_growth_c = pd.DataFrame(columns = ['wave_peak','wave_base', 'wave_top','note', 'flux', 'loggf', 'EW', 'EWR', 'error_f'])
+    element_growth_c['wave_peak'] = _data_lines['wave_peak']
+    element_growth_c['wave_base'] = _data_lines['wave_base']
+    element_growth_c['wave_top'] = _data_lines['wave_top']
+    element_growth_c['note'] = _data_lines['note']
     element_growth_c['flux'] = _data_lines['flux']
     element_growth_c['loggf'] = _data_lines['loggf']
     element_growth_c['EW'] = equivalent_widths
     element_growth_c['EWR'] = equivalent_widths_r
-    element_growth_c['wave_base'] = _data_lines['wave_base']
-    element_growth_c['wave_top'] = _data_lines['wave_top']
     element_growth_c['error_f'] = _data_lines['error_f']
     return element_growth_c
 
@@ -171,11 +173,11 @@ def growth_curve(n_CROMOSP_LINES, n_ATOMIC_LINES, n_SPECTRUM, n_THEORIC_CROMOSP_
     
     #Lecture Data: klaus' lines, cromospheric spectrum, VALD
     spectrum =  pd.read_csv(n_SPECTRUM, delimiter = '\t', header = 0)
-    lines = pd.read_csv(n_CROMOSP_LINES, delimiter = '\t', header = 0)
+    lines = pd.read_csv(n_CROMOSP_LINES, delimiter = '\t', usecols = ['wave_peak','wave_base','wave_top','note','flux','error_f'], header = 0)
     Atomic_lines = pd.read_csv(n_ATOMIC_LINES, delimiter = '\t', usecols = ['element', 'wave_A','loggf'], header = 0, low_memory=False, keep_default_na= False)
     Atomic_lines['wave_A'] = Atomic_lines['wave_A']/10
-    lines_ = pd.read_excel("lines.xlsx",sheet_name="cromospheric_lines", columns = ['waveobs', 'element','wave_base', 'wave_top'] )
-    lines_['waveobs'] = lines_['waveobs']/10
+    lines_ = pd.read_csv(n_THEORIC_CROMOSP_LINES, delimiter = '\t', header = 0)
+    lines_['wave_peak'] = lines_['wave_peak']/10
     lines_['wave_base'] = lines_['wave_base']/10
     lines_['wave_top'] = lines_['wave_top']/10
 
@@ -184,9 +186,10 @@ def growth_curve(n_CROMOSP_LINES, n_ATOMIC_LINES, n_SPECTRUM, n_THEORIC_CROMOSP_
     _data_lines = list_loggf(element, data_element, atomic_data_element,spectrum, lines_)
     
 
-    equivalent_widths,equivalent_widths_r = Equivalent_width_comp(spectrum,_data_lines['waveobs'], _data_lines['wave_base'], _data_lines['wave_top'])
+    equivalent_widths,equivalent_widths_r = Equivalent_width_comp(spectrum,_data_lines['wave_peak'], _data_lines['wave_base'], _data_lines['wave_top'])
     data_lines = data_growth_curve(_data_lines, equivalent_widths, equivalent_widths_r)
-    data_lines.to_csv("{}_growth_curve.dat".format(element), sep = '\t', index = False, header=True)
+
+    data_lines.to_csv("DataSet/Outputs/{}_growth_curve.dat".format(element), sep = '\t', index = False, header=True)
 
 
 if __name__ == '__main__':

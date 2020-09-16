@@ -1,4 +1,4 @@
-CROMOSP_LINES : "c_lines_spectrum.txt"
-ATOMIC_LINES  : "atomic_lines.tsv"
-SPECTRUM      : "Subtracted_spectrum_F1-9.txt"
-THEORIC_CROMOSP_LINES : "lines.xlsx" 
+CROMOSP_LINES : "DataSet/Inputs/c_lines_spectrum.txt"
+ATOMIC_LINES  : "DataSet/Inputs/atomic_lines.tsv"
+SPECTRUM      : "DataSet/Inputs/Subtracted_spectrum_F1-9.txt"
+THEORIC_CROMOSP_LINES : "DataSet/Inputs/theoric_c_lines.txt" 
