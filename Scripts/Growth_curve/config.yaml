@@ -1,4 +1,4 @@
 CROMOSP_LINES : "DataSet/Inputs/c_lines_spectrum.txt"
 ATOMIC_LINES  : "DataSet/Inputs/atomic_lines.tsv"
-SPECTRUM      : "DataSet/Inputs/Subtracted_spectrum_F1-9.txt"
+SPECTRUM      : "DataSet/Inputs/N_zetaAur-eclipse_B_2019_11_19_02_52_08_velrad.dat"
 THEORIC_CROMOSP_LINES : "DataSet/Inputs/theoric_c_lines.txt" 
