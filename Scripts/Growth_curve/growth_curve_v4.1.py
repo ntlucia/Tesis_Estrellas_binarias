@@ -3,7 +3,7 @@
 #//       Filename:  growth_curve.py                                                              //
 #//    Description:  Equivalent width and loggf program for cromospheric lines                    //
 #//                                                                                               //
-#//        Version:  4.1                                                                             //
+#//        Version:  5                                                                             //
 #//        Created:  25/07/2020                                                                   //
 #//       Compiler:  Python                                                                       //
 #//                                                                                               //
@@ -44,35 +44,46 @@ logger.setLevel(logging.getLevelName(LOG_LEVEL.upper()))
 
 #---------- ATOMIC DATA, THEORETICAL LINE AND SPECTRUM MATCHES ----------#
 
-def match_theoric_atomic_data(theoric_lines, Atomic_lines):
+def match_theoric_atomic_data(atomic_lines, theoric_lines, element):
+
+    logging.info("Restricting to the specified element")
+    #Filter according to the element to be analyzed
+    data_element = theoric_lines[theoric_lines['note'] == element]
+    data_element.index = list(range(len(data_element)))
+    
+    atomic_data_element = atomic_lines[atomic_lines['element'] == element]
+    atomic_data_element.index = list(range(len(atomic_data_element)))
+
+
     logging.info("Atomic data and theoretical line matches")
 
     #Find the nearest value within the list of atomic data
     peak = []
-    for i in range(len(theoric_lines['wave_peak'])):
-        peak.append(nsmallest(1,Atomic_lines['wave_nm'], key = lambda x: abs(x-theoric_lines['wave_peak'][i]))[0])
+    for i in range(len(data_element['wave_peak'])):
+        peak.append(nsmallest(1,atomic_data_element['wave_nm'], key = lambda x: abs(x-data_element['wave_peak'][i]))[0])
 
     #Filter only the lines that interest me (theorical lines)
-    Atomic_lines1 = []
+    Atomic_lines = []
     for i in range(len(peak)):
-        Atomic_lines1.append(Atomic_lines[(Atomic_lines['wave_nm'] == peak[i])])
+        Atomic_lines.append(atomic_data_element[(atomic_data_element['wave_nm'] == peak[i])])
 
     logging.info("Creating a new match list")
 
     #Filter only the lines that interest me (theorical lines) 
     #columns = ['wave_peak', 'wave_base', 'wave_top','note', 'loggf', 'lower_state_eV', 'upper_state_eV']
     match_atomic_theoric = pd.DataFrame(columns = ['wave_peak', 'wave_base', 'wave_top','note', 'loggf', 'lower_state_eV', 'upper_state_eV'])
-    match_atomic_theoric['wave_base'] = theoric_lines['wave_base']
-    match_atomic_theoric['wave_top'] = theoric_lines['wave_top']
+    match_atomic_theoric['wave_base'] = data_element['wave_base']
+    match_atomic_theoric['wave_top'] = data_element['wave_top']
 
-    for i in range(len(Atomic_lines1)):
-        match_atomic_theoric['wave_peak'].loc[i] = Atomic_lines1[i]['wave_nm'].values[0]
-        match_atomic_theoric['note'].loc[i] = Atomic_lines1[i]['element'].values[0]
-        match_atomic_theoric['loggf'].loc[i] = Atomic_lines1[i]['loggf'].values[0]
-        match_atomic_theoric['lower_state_eV'].loc[i] = Atomic_lines1[i]['lower_state_eV'].values[0]
-        match_atomic_theoric['upper_state_eV'].loc[i] = Atomic_lines1[i]['upper_state_eV'].values[0]
+    for i in range(len(Atomic_lines)):
+        match_atomic_theoric['wave_peak'].loc[i] = Atomic_lines[i]['wave_nm'].values[0]
+        match_atomic_theoric['note'].loc[i] = Atomic_lines[i]['element'].values[0]
+        match_atomic_theoric['loggf'].loc[i] = Atomic_lines[i]['loggf'].values[0]
+        match_atomic_theoric['lower_state_eV'].loc[i] = Atomic_lines[i]['lower_state_eV'].values[0]
+        match_atomic_theoric['upper_state_eV'].loc[i] = Atomic_lines[i]['upper_state_eV'].values[0]
 
     return match_atomic_theoric
+
 
 def match_spectrum(spectrum, match_atomic_theoric):
 
@@ -117,14 +128,6 @@ def match_spectrum(spectrum, match_atomic_theoric):
     return c_lines_spectrum
 
 
-def elements_analyze(c_lines_spectrum, element):
-
-    logging.info("Restricting to the specified element")
-    #Filter according to the element to be analyzed
-    data_element = c_lines_spectrum[c_lines_spectrum['note'] == element]
-    data_element.index = list(range(len(data_element)))
-    
-    return data_element
 
 
 #---------- CALCULATE EQUIVALENT WIDTH AND ADD TO LIST ----------#
@@ -162,15 +165,15 @@ def Equivalent_width(spectrum, peak, base, top,i):
     #Equivalent width
     EW = Area_real/mean
     EWR = np.log10(abs(EW/peak))
-    
+
     logging.info("Calculating error propagation")
 
     errlambda = 0.03 #Instrumental error
     errflux = (abs(mean - mean1['flux']) + abs(mean - mean2['flux']))/2 #flux error
     errorA1 = Area_rec*(errflux/mean)*((errlambda + errlambda)/(top - base))
-    errorA2 = np.sqrt(np.sum(spectrum['err'][c]**2))
-    errorAreal = errorA1 + errorA2 #Area error
-    errEW = EW*(errorAreal/Area_real + errflux/mean) #Equivalent width error
+    #errorA2 = np.sqrt(np.sum(spectrum['err'][c]**2))
+    #errorAreal = errorA1 + errorA2 #Area error
+    errEW = EW*(errorA1/Area_real + errflux/mean) #Equivalent width error
     errEWR = errEW/(EW*np.log(10))
     return EW,EWR, errEWR
 
@@ -229,14 +232,13 @@ def growth_curve(n_CROMOSP_LINES, n_ATOMIC_LINES, n_SPECTRUM, n_THEORIC_CROMOSP_
 
 
     #Execute all functions
-    match_theoric_atomic = match_theoric_atomic_data(lines_, Atomic_lines)
+    match_theoric_atomic = match_theoric_atomic_data(Atomic_lines, lines_, element)
 
     c_lines_spectrum = match_spectrum(spectrum, match_theoric_atomic)
 
-    data_element = elements_analyze(c_lines_spectrum, element)
     
-    equivalent_widths,equivalent_widths_r, errorsEWR = Equivalent_width_comp(spectrum,data_element['wave_peak'], data_element['wave_base'], data_element['wave_top'])
-    data_lines = data_growth_curve(data_element, equivalent_widths, equivalent_widths_r, errorsEWR )
+    equivalent_widths,equivalent_widths_r, errorsEWR = Equivalent_width_comp(spectrum,c_lines_spectrum['wave_peak'], c_lines_spectrum['wave_base'], c_lines_spectrum['wave_top'])
+    data_lines = data_growth_curve(c_lines_spectrum, equivalent_widths, equivalent_widths_r, errorsEWR )
 
     data_lines.to_csv("DataSet/Outputs/{}_growth_curve.dat".format(element), sep = '\t', index = False, header=True)
 
