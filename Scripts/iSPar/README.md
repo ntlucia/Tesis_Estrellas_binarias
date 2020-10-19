@@ -7,11 +7,7 @@ precisión en el canal rojo, ya que tiene una relación señal a ruido mucho may
 el canal azul. Con este script también se pueden calcular los parámetros estelares, ya sea dandole un input o haciendo iteraciones y
 comparaciones con el espectro sintético de la estrella.
 
-
-**DataRedu** puede convertir recursivamente archivos .fit a .dat; esto es, todos los archivos de una carpeta o 
-de carpetas separadas (cada carpeta con el nombre de la estrella).
-
-#### Vemos que tenemos dos carpetas, una de ellas aplica la normalización que viene directa de la universidad de 
+Vemos que tenemos dos carpetas, una de ellas aplica la normalización que viene directa de la universidad de 
 Hamburgo sobre todos los datos del tigre, pero es posible no usar esta normalización y hacerla con el código de iSPar
 que está en la otra carpeta.
 
