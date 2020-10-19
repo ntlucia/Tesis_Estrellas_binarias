@@ -3,7 +3,7 @@
 #//       Filename:  growth_curve.py                                                              //
 #//    Description:  Equivalent width and loggf program for cromospheric lines                    //
 #//                                                                                               //
-#//        Version:  5                                                                             //
+#//        Version:  5.1                                                                          //
 #//        Created:  25/07/2020                                                                   //
 #//       Compiler:  Python                                                                       //
 #//                                                                                               //
