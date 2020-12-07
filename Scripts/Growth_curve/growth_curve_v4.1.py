@@ -3,7 +3,7 @@
 #//       Filename:  growth_curve.py                                                              //
 #//    Description:  Equivalent width and loggf program for cromospheric lines                    //
 #//                                                                                               //
-#//        Version:  6.1                                                                          //
+#//        Version:  7.1                                                                          //
 #//        Created:  25/07/2020                                                                   //
 #//       Compiler:  Python                                                                       //
 #//                                                                                               //
@@ -134,111 +134,50 @@ def match_spectrum(spectrum, match_atomic_theoric):
 
 
 #Calculate equivalent width
-#def Equivalent_width(spectrum, peak, base, top,i):
-#
- #   logging.info("Calculating the local continuum")
-#    pseudo_continuous1 = spectrum[(spectrum['waveobs'] <= base)  & (spectrum['waveobs'] > (base-0.06))] #Left
-  #  pseudo_continuous2 = spectrum[(spectrum['waveobs'] >= top )  & (spectrum['waveobs'] < (top+0.06))] #Right
-#    pseudo_continuous1.index = list(range(len(pseudo_continuous1)))
- #   pseudo_continuous2.index = list(range(len(pseudo_continuous2)))
-
-  #  mean1 = np.mean(pseudo_continuous1)
-   # mean2 = np.mean(pseudo_continuous2)
-    #mean = (mean1['flux'] + mean2['flux'])/2
-
-    #logging.info("Calculating areas under the curve")
-    #Area under the local continuum
-#    Area_rec = mean*(top - base)
-
- #   b = spectrum['waveobs']>base
-  #  a = spectrum['waveobs']<top
-   # c = a&b
-    
-    #Area under the absortion line 
-#    Area_fit = integrate.simps(spectrum['flux'][c],spectrum["waveobs"][c])
-    #Area within the absorption line
- #   Area_real = Area_rec - Area_fit
-
-  #  logging.info("Calculating equivalent width")
-
-    #Equivalent width
-   # EW = Area_real/mean
-    #EWR = np.log10(abs(EW/peak))
-
-    #logging.info("Calculating error propagation")
-
-#    errlambda = 0.03 #Instrumental error
- #   errflux = (abs(mean - mean1['flux']) + abs(mean - mean2['flux']))/2 #flux error
-  #  errorA1 = Area_rec*(errflux/mean)*((errlambda + errlambda)/(top - base))
-    #errorA2 = np.sqrt(np.sum(spectrum['err'][c]**2))
-    #errorAreal = errorA1 + errorA2 #Area error
-   # errEW = EW*(errorA1/Area_real + errflux/mean) #Equivalent width error
-    #errEWR = errEW/(EW*np.log(10))
-    #return EW,EWR, errEWR
-
-
 def Equivalent_width(spectrum, peak, base, top,i):
-
     logging.info("Calculating the local continuum")
-    #Find the local continuum for each line
     pseudo_continuous1 = spectrum[(spectrum['waveobs'] <= base)  & (spectrum['waveobs'] > (base-0.06))] #Left
     pseudo_continuous2 = spectrum[(spectrum['waveobs'] >= top )  & (spectrum['waveobs'] < (top+0.06))] #Right
     pseudo_continuous1.index = list(range(len(pseudo_continuous1)))
     pseudo_continuous2.index = list(range(len(pseudo_continuous2)))
 
+    mean1 = np.mean(pseudo_continuous1)
+    mean2 = np.mean(pseudo_continuous2)
+    mean = (mean1['flux'] + mean2['flux'])/2
 
-    mean1 = np.mean(pseudo_continuous1['flux'])
-    mean2 = np.mean(pseudo_continuous2['flux'])
-    if mean1 > mean2:
+    logging.info("Calculating areas under the curve")
+    #Area under the local continuum
+    Area_rec = mean*(top - base)
 
-        logging.info("Calculating areas under the curve")
-        #Area under the local continuum
-        Area_rec = mean1*(top - base)
-        b = spectrum['waveobs']>base
-        a = spectrum['waveobs']<top
-        c = a&b
+    b = spectrum['waveobs']>base
+    a = spectrum['waveobs']<top
+    c = a&b
     
     #Area under the absortion line 
-        Area_fit = integrate.simps(spectrum['flux'][c],spectrum["waveobs"][c])
+    Area_fit = integrate.simps(spectrum['flux'][c],spectrum["waveobs"][c])
     #Area within the absorption line
-        Area_real = Area_rec - Area_fit
+    Area_real = Area_rec - Area_fit
 
-        logging.info("Calculating equivalent width")
+    logging.info("Calculating equivalent width")
 
     #Equivalent width
-        EW = Area_real/mean1
-        EWR = np.log10(abs(EW/peak))
-
-    else:
-        logging.info("Calculating areas under the curve")
-        #Area under the local continuum
-        Area_rec = mean2*(top - base)
-
-        b = spectrum['waveobs']>base
-        a = spectrum['waveobs']<top
-        c = a&b
-    
-    #Area under the absortion line 
-        Area_fit = integrate.simps(spectrum['flux'][c],spectrum["waveobs"][c])
-    #Area within the absorption line
-        Area_real = Area_rec - Area_fit
-
-        logging.info("Calculating equivalent width")
-
-    #Equivalent width
-        EW = Area_real/mean2
-        EWR = np.log10(abs(EW/peak))
+    EW = Area_real/mean
+    EWR = np.log10(abs(EW/peak))
 
     logging.info("Calculating error propagation")
 
-    #errlambda = 0.03 #Instrumental error
-    #errflux = mean1.std() #flux error
-    #errorA1 = Area_rec*(errflux/mean)*((errlambda + errlambda)/(top - base))
+    errlambda = 0.03 #Instrumental error
+    errflux = (abs(mean - mean1['flux']) + abs(mean - mean2['flux']))/2 #flux error
+    errorA1 = Area_rec*(errflux/mean)*((errlambda + errlambda)/(top - base))
     #errorA2 = np.sqrt(np.sum(spectrum['err'][c]**2))
     #errorAreal = errorA1 + errorA2 #Area error
-    #errEW = EW*(errorA1/Area_real + errflux/mean) #Equivalent width error
-    #errEWR = errEW/(EW*np.log(10))
-    return EW,EWR
+    errEW = EW*(errorA1/Area_real + errflux/mean) #Equivalent width error
+    errEWR = errEW/(EW*np.log(10))
+    return EW,EWR, errEWR
+
+
+
+    
 
 
 def Equivalent_width_comp(spectrum,_data_lines, base,top):
@@ -247,21 +186,21 @@ def Equivalent_width_comp(spectrum,_data_lines, base,top):
 
     equivalent_widths = []
     equivalent_widths_r = []
-    #errorsEWR = []
+    errorsEWR = []
     for i in range(len(base)):
         try:
-            EW,EWR = Equivalent_width(spectrum, _data_lines[i], base[i], top[i],i)
+            EW,EWR, errEWR = Equivalent_width(spectrum, _data_lines[i], base[i], top[i],i)
             equivalent_widths.append(EW)
             equivalent_widths_r.append(EWR)
-            #errorsEWR.append(errEWR)
+            errorsEWR.append(errEWR)
         except IndexError:
             print("IndexError, i={}".format(i))
 
         
-    return [equivalent_widths,equivalent_widths_r]
+    return [equivalent_widths,equivalent_widths_r, errorsEWR]
 
 #Create final list, with which the growth curves can be plotted
-def data_growth_curve(_data_lines, equivalent_widths,equivalent_widths_r ):
+def data_growth_curve(_data_lines, equivalent_widths,equivalent_widths_r, errorsEWR ):
 
     logging.info("Creating final list")
     
@@ -276,7 +215,7 @@ def data_growth_curve(_data_lines, equivalent_widths,equivalent_widths_r ):
     element_growth_c['upper_state_eV'] = _data_lines['upper_state_eV']
     element_growth_c['EW'] = equivalent_widths
     element_growth_c['EWR'] = equivalent_widths_r
-    #element_growth_c['errEWR'] = errorsEWR
+    element_growth_c['errEWR'] = errorsEWR
     element_growth_c['error_f'] = _data_lines['error_f']
     return element_growth_c
 
@@ -301,8 +240,8 @@ def growth_curve(n_CROMOSP_LINES, n_ATOMIC_LINES, n_SPECTRUM, n_THEORIC_CROMOSP_
     c_lines_spectrum = match_spectrum(spectrum, match_theoric_atomic)
 
     
-    equivalent_widths,equivalent_widths_r = Equivalent_width_comp(spectrum,c_lines_spectrum['wave_peak'], c_lines_spectrum['wave_base'], c_lines_spectrum['wave_top'])
-    data_lines = data_growth_curve(c_lines_spectrum, equivalent_widths, equivalent_widths_r )
+    equivalent_widths,equivalent_widths_r, error_ew = Equivalent_width_comp(spectrum,c_lines_spectrum['wave_peak'], c_lines_spectrum['wave_base'], c_lines_spectrum['wave_top'])
+    data_lines = data_growth_curve(c_lines_spectrum, equivalent_widths, equivalent_widths_r, error_ew )
 
     data_lines.to_csv("DataSet/Outputs/{}_growth_curve.dat".format(element), sep = '\t', index = False, header=True)
 
