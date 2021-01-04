@@ -92,11 +92,11 @@ def match_spectrum(spectrum, match_atomic_theoric):
     #Find the closest values within the data spectrum for the ends of the line
     top = []
     for i in range(len(match_atomic_theoric['wave_top'])):
-        top.append(nsmallest(1,spectrum['waveobs'], key = lambda x: abs(x-match_atomic_theoric['wave_top'][i]))[0])
+        top.append(nsmallest(1,spectrum['waveobs'], key = lambda x: abs(x-np.float(match_atomic_theoric['wave_top'][i])))[0])
 
     base = []
     for i in range(len(match_atomic_theoric['wave_base'])):
-        base.append(nsmallest(1,spectrum['waveobs'], key = lambda x: abs(x-match_atomic_theoric['wave_base'][i]))[0])
+        base.append(nsmallest(1,spectrum['waveobs'], key = lambda x: abs(x-np.float(match_atomic_theoric['wave_base'][i])))[0])
 
     logging.info("Creating a new match list")
 

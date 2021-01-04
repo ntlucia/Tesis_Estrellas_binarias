@@ -1,4 +1,4 @@
 CROMOSP_LINES : "DataSet/Inputs/c_lines_spectrum.txt"
 ATOMIC_LINES  : "DataSet/Inputs/atomic_lines.tsv"
-SPECTRUM      : "DataSet/Inputs/Subtracted_spectrum_24oct.txt"
-THEORIC_CROMOSP_LINES : "DataSet/Inputs/theoretical_lines_24oct.txt" 
+SPECTRUM      : "DataSet/Inputs/Subtracted_spectrum_oct25.txt"
+THEORIC_CROMOSP_LINES : "DataSet/Inputs/theoretical_lines_25oct.txt"
