@@ -1,7 +1,7 @@
 # DataRedu
 
 ## Descripción: 
-DataRedu es un script en bash que llama a una versión modificada por mí del programa en python 
+DataRedu es un script en bash que llama a una versión modificada por mí coasesor Faiber Danilo Rosas del programa en python 
 con_to_ascii.py diseñado por el grupo de investigación de atmósferas estelares del convenio internacional 
 entre la Universidad de Hamburgo (Alemania), la Universidad de Guanajuato (México) y la Universidad de Liegè 
 (Bélgica); para convertir los archicos .fit de los espectros tomados por TIGRE-HEROS a archivos .dat
